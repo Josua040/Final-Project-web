@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Register</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="background">
+  <div class="flex flex-col items-center justify-center min-h-screen">
+    <form class="login-form">
+      <h2 class="form-title">Registration</h2>
+
+      <label class="form-label">
+        <span class="form-label-text">Username</span>
+        <input
+          autocomplete="username"
+          class="form-input"
+          name="username"
+          placeholder="Create your username"
+          required
+          type="text"
+        />
+        <i class="fas fa-user form-icon"></i>
+      </label>
+
+      <label class="form-label">
+        <span class="form-label-text">Password</span>
+        <input
+          autocomplete="new-password"
+          class="form-input"
+          name="password"
+          placeholder="Create a password"
+          required
+          type="password"
+        />
+        <i class="fas fa-lock form-icon"></i>
+      </label>
+
+      <button class="submit-button" type="submit">Register</button>
+
+      <p class="form-footer">
+        Already have an account?
+        <a class="underline text-yellow hover:text-white transition" href="index.html">Login</a>
+      </p>
+    </form>
+  </div>
+</body>
+</html>
