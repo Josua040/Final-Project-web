@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Film - Cinema 23</title>
+    <link rel="stylesheet" href="css/style.css">
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="home.html" class="logo">Cinema 23</a>
+            <ul class="nav-links">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="watchlist.html">Watchlist</a></li>
+                <li><a href="account.html">Akun</a></li>
+            </ul>
+        </div>
+    </nav>
+</head>
+
+<body>
+    <div class="main-content">
+        <div class="modal-content">
+            <div class="modal-movie-info">
+                <div class="modal-poster" id="modal-poster">Movie Poster</div>
+                <div class="modal-details">
+                    <h2 class="modal-title" id="modal-title">Movie Title</h2>
+                    <p class="modal-description" id="modal-description">Movie description goes here...</p>
+                    <div class="modal-rating">
+                        <span>Rating: </span>
+                        <div class="stars" id="modal-stars">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                        <span id="modal-rating-text">(4.5/5)</span>
+                    </div>
+                    <button class="watchlist-btn" onclick="addToWatchlist()">+ Tambah ke Watchlist</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>

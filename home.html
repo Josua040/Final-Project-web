@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinema 23 - Home</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="home.html" class="logo">Cinema 23</a>
+            <ul class="nav-links">
+                <li>
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Cari film..." id="searchInput">
+                    </div>
+                </li>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="watchlist.html">Watchlist</a></li>
+                <li><a href="account.html">Akun</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Selamat Datang di Cinema 23</h1>
+                <p>Temukan film-film terbaik dan terbaru. Nonton trailer, baca review, dan tambahkan ke watchlist Anda!
+                </p>
+            </div>
+        </section>
+
+        <section class="movie-section">
+            <h2 class="section-title">Film Terbaru</h2>
+            <div class="movie-container" id="latest-movies">
+                <button class="nav-btn prev" onclick="slideMovies('latest-movies', -1)">&#8249;</button>
+                <div class="movie-slider" id="latest-slider"></div>
+                <button class="nav-btn next" onclick="slideMovies('latest-movies', 1)">&#8250;</button>
+            </div>
+        </section>
+
+        <section class="movie-section">
+            <h2 class="section-title">Top 10 Film in This Week</h2>
+            <div class="movie-container" id="weekly-movies">
+                <button class="nav-btn prev" onclick="slideMovies('weekly-movies', -1)">&#8249;</button>
+                <div class="movie-slider" id="weekly-slider"></div>
+                <button class="nav-btn next" onclick="slideMovies('weekly-movies', 1)">&#8250;</button>
+            </div>
+        </section>
+
+        <section class="movie-section">
+            <h2 class="section-title">Top 10 Rating Film di Cinema 23</h2>
+            <div class="movie-container" id="top-rated-movies">
+                <button class="nav-btn prev" onclick="slideMovies('top-rated-movies', -1)">&#8249;</button>
+                <div class="movie-slider" id="top-rated-slider"></div>
+                <button class="nav-btn next" onclick="slideMovies('top-rated-movies', 1)">&#8250;</button>
+            </div>
+        </section>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>
