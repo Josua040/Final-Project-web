@@ -157,6 +157,7 @@ function closeModal() {
     selectedMovie = null;
 }
 
+
 // Add to watchlist
 function addToWatchlist() {
     if (selectedMovie && !watchlist.find(movie => movie.id === selectedMovie.id)) {
@@ -167,6 +168,14 @@ function addToWatchlist() {
     } else if (selectedMovie) {
         alert(`${selectedMovie.title} sudah ada di watchlist!`);
     }
+}
+
+function updateWatchlistDisplay() {
+    console.log("Watchlist sekarang:", watchlist);
+}
+
+function closeModal() {
+    console.log("Modal ditutup");
 }
 
 // Update watchlist display

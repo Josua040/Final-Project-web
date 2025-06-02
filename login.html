@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Cinema 23</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Background animation */
+        .bg-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .film-strip {
+            position: absolute;
+            width: 100px;
+            height: 100vh;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent 0px,
+                transparent 15px,
+                #333 15px,
+                #333 20px
+            );
+            opacity: 0.05;
+            animation: filmMove 25s linear infinite;
+        }
+
+        .film-strip:nth-child(1) { left: 5%; animation-delay: 0s; }
+        .film-strip:nth-child(2) { right: 5%; animation-delay: -12s; }
+
+        @keyframes filmMove {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
+
+        /* Main container */
+        .login-container {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            border: 2px solid #e50914;
+            box-shadow: 0 20px 40px rgba(229, 9, 20, 0.3);
+            backdrop-filter: blur(15px);
+            width: 100%;
+            max-width: 450px;
+            z-index: 10;
+            position: relative;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Header */
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #ccc;
+            text-decoration: none;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            padding: 10px;
+            border-radius: 50%;
+            background: rgba(229, 9, 20, 0.1);
+        }
+
+        .back-btn:hover {
+            color: #e50914;
+            background: rgba(229, 9, 20, 0.2);
+            transform: scale(1.1);
+        }
+
+        .logo-small {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #e50914, #ff6b6b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .login-title {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .login-subtitle {
+            color: #ccc;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Form styling */
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group label {
+            color: #ccc;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            display: block;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(229, 9, 20, 0.3);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #e50914;
+            background: rgba(229, 9, 20, 0.1);
+            box-shadow: 0 0 20px rgba(229, 9, 20, 0.3);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Input icons */
+        .form-group .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ccc;
+            font-size: 1.2rem;
+            pointer-events: none;
+        }
+
+        .form-group.has-icon input {
+            padding-right: 50px;
+        }
+
+        /* Remember me checkbox */
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .remember-me input[type="checkbox"] {
+            width: auto;
+            margin-right: 8px;
+            transform: scale(1.2);
+            accent-color: #e50914;
+        }
+
+        .forgot-password {
+            color: #e50914;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password:hover {
+            color: #ff6b6b;
+            text-decoration: underline;
+        }
+
+        /* Login button */
+        .login-btn {
+            background: linear-gradient(45deg, #e50914, #ff1744);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            background: linear-gradient(45deg, #ff1744, #e50914);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(229, 9, 20, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .login-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Divider */
+        .divider {
+            text-align: center;
+            margin: 30px 0;
+            position: relative;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #333, transparent);
+        }
+
+        .divider span {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Register link */
+        .register-link {
+            text-align: center;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .register-link a {
+            color: #e50914;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .register-link a:hover {
+            color: #ff6b6b;
+            text-decoration: underline;
+        }
+
+        /* Error message */
+        .error-message {
+            background: rgba(229, 9, 20, 0.1);
+            border: 1px solid #e50914;
+            color: #ff6b6b;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .login-container {
+                margin: 20px;
+                padding: 30px 25px;
+            }
+            
+            .logo-small {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 25px 20px;
+            }
+            
+            .logo-small {
+                font-size: 1.8rem;
+            }
+            
+            .login-title {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Loading state */
+        .login-btn.loading {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .login-btn.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: translateY(-50%) rotate(0deg); }
+            100% { transform: translateY(-50%) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background animation -->
+    <div class="bg-animation">
+        <div class="film-strip"></div>
+        <div class="film-strip"></div>
+    </div>
+
+    <!-- Login container -->
+    <div class="login-container">
+        <!-- Back button -->
+        <a href="index.html" class="back-btn" title="Kembali">← </a>
+
+        <!-- Header -->
+        <div class="login-header">
+            <h1 class="logo-small">CINEMA 23</h1>
+            <h2 class="login-title">Selamat Datang Kembali</h2>
+            <p class="login-subtitle">Masuk ke akun Anda untuk melanjutkan</p>
+        </div>
+
+        <!-- Error message -->
+        <div class="error-message" id="errorMessage">
+            <!-- Error akan ditampilkan di sini -->
+        </div>
+
+        <!-- Login form -->
+        <form class="login-form" id="loginForm">
+            <div class="form-group has-icon">
+                <label for="nama">Username</label>
+                <input type="text" id="nama" name="nama" placeholder="Masukkan Username" required>
+            </div>
+
+            <div class="form-group has-icon">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Masukkan password" required>
+            </div>
+
+            <div class="remember-forgot">
+                <label class="remember-me">
+                    <input type="checkbox" name="remember">
+                    Ingat saya
+                </label>
+                <a href="#" class="forgot-password">Lupa password?</a>
+            </div>
+
+            <button type="submit" class="login-btn" id="loginBtn">
+                 Masuk Sekarang
+            </button>
+        </form>
+
+        <!-- Divider -->
+        <div class="divider">
+            <span>atau</span>
+        </div>
+
+        <!-- Register link -->
+        <div class="register-link">
+            Belum punya akun? <a href="register.html">Daftar sekarang</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('loginForm');
+            const loginBtn = document.getElementById('loginBtn');
+            const errorMessage = document.getElementById('errorMessage');
+
+            // Form validation
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Reset error message
+                errorMessage.style.display = 'none';
+                
+                // Get form data
+                const nama = document.getElementById('nama').value.trim();
+                const password = document.getElementById('password').value;
+                
+                // Basic validation
+                if (!nama || !password) {
+                    showError('Semua field harus diisi!');
+                    return;
+                }
+                
+                if (password.length < 6) {
+                    showError('Password minimal 6 karakter!');
+                    return;
+                }
+                
+                // Show loading state
+                showLoading(true);
+                
+                // Simulate login process (replace with actual PHP call)
+                setTimeout(() => {
+                    // Here you would normally send data to PHP
+                    // For demo purposes, we'll simulate success/failure
+                    if (nama === 'admin' && password === 'admin123') {
+                        // Success - redirect to dashboard
+                        window.location.href = 'home.html';
+                    } else {
+                        showLoading(false);
+                        showError('Username atau password salah!');
+                    }
+                }, 2000);
+            });
+
+            // Show error message
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                errorMessage.style.animation = 'shake 0.5s ease-in-out';
+            }
+
+            // Show/hide loading state
+            function showLoading(loading) {
+                if (loading) {
+                    loginBtn.classList.add('loading');
+                    loginBtn.disabled = true;
+                    loginBtn.textContent = 'Memproses...';
+                } else {
+                    loginBtn.classList.remove('loading');
+                    loginBtn.disabled = false;
+                    loginBtn.innerHTML = '🎬 Masuk Sekarang';
+                }
+            }
+
+            // Input focus effects
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'scale(1.02)';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'scale(1)';
+                });
+            });
+
+            // Add ripple effect to button
+            loginBtn.addEventListener('click', function(e) {
+                if (!this.disabled) {
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    ripple.style.position = 'absolute';
+                    ripple.style.borderRadius = '50%';
+                    ripple.style.background = 'rgba(255,255,255,0.3)';
+                    ripple.style.pointerEvents = 'none';
+                    ripple.style.animation = 'ripple-effect 0.6s linear';
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                }
+            });
+        });
+
+        // Add shake animation for error
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                20%, 40%, 60%, 80% { transform: translateX(5px); }
+            }
+            
+            @keyframes ripple-effect {
+                to {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);

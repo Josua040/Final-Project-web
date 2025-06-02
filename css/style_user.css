@@ -162,6 +162,7 @@ body {
 .movie-container {
     position: relative;
     overflow: hidden;
+    padding: 0 2.5rem;
 }
 
 .movie-slider {

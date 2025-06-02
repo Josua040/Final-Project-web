@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar - Cinema 23</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+            padding: 20px 0;
+        }
+
+        /* Background animation */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .film-strip {
+            position: absolute;
+            width: 100px;
+            height: 100vh;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent 0px,
+                transparent 15px,
+                #333 15px,
+                #333 20px
+            );
+            opacity: 0.05;
+            animation: filmMove 25s linear infinite;
+        }
+
+        .film-strip:nth-child(1) { left: 5%; animation-delay: 0s; }
+        .film-strip:nth-child(2) { right: 5%; animation-delay: -12s; }
+
+        @keyframes filmMove {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
+
+        /* Main container */
+        .register-container {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 35px;
+            border-radius: 20px;
+            border: 2px solid #e50914;
+            box-shadow: 0 20px 40px rgba(229, 9, 20, 0.3);
+            backdrop-filter: blur(15px);
+            width: 100%;
+            max-width: 500px;
+            z-index: 10;
+            position: relative;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Header */
+        .register-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #ccc;
+            text-decoration: none;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            padding: 10px;
+            border-radius: 50%;
+            background: rgba(229, 9, 20, 0.1);
+        }
+
+        .back-btn:hover {
+            color: #e50914;
+            background: rgba(229, 9, 20, 0.2);
+            transform: scale(1.1);
+        }
+
+        .logo-small {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #e50914, #ff6b6b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .register-title {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .register-subtitle {
+            color: #ccc;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Form styling */
+        .register-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-group {
+            position: relative;
+            flex: 1;
+        }
+
+        .form-group label {
+            color: #ccc;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            display: block;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(229, 9, 20, 0.3);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .form-group select {
+            cursor: pointer;
+        }
+
+        .form-group select option {
+            background: #1a1a2e;
+            color: white;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #e50914;
+            background: rgba(229, 9, 20, 0.1);
+            box-shadow: 0 0 20px rgba(229, 9, 20, 0.3);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Password strength indicator */
+        .password-strength {
+            margin-top: 5px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .strength-weak { background: #e74c3c; width: 33%; }
+        .strength-medium { background: #f39c12; width: 66%; }
+        .strength-strong { background: #27ae60; width: 100%; }
+
+        .password-hint {
+            font-size: 0.8rem;
+            color: #ccc;
+            margin-top: 5px;
+            opacity: 0.7;
+        }
+
+        /* Register button */
+        .register-btn {
+            background: linear-gradient(45deg, #e50914, #ff1744);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .register-btn:hover {
+            background: linear-gradient(45deg, #ff1744, #e50914);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(229, 9, 20, 0.4);
+        }
+
+        .register-btn:active {
+            transform: translateY(0);
+        }
+
+        .register-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .register-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .register-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Divider */
+        .divider {
+            text-align: center;
+            margin: 25px 0;
+            position: relative;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #333, transparent);
+        }
+
+        .divider span {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Login link */
+        .login-link {
+            text-align: center;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .login-link a {
+            color: #e50914;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .login-link a:hover {
+            color: #ff6b6b;
+            text-decoration: underline;
+        }
+
+        /* Error/Success message */
+        .message {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .error-message {
+            background: rgba(229, 9, 20, 0.1);
+            border: 1px solid #e50914;
+            color: #ff6b6b;
+        }
+
+        .success-message {
+            background: rgba(39, 174, 96, 0.1);
+            border: 1px solid #27ae60;
+            color: #27ae60;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .register-container {
+                margin: 10px;
+                padding: 30px 25px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .logo-small {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .register-container {
+                padding: 25px 20px;
+            }
+            
+            .logo-small {
+                font-size: 1.8rem;
+            }
+            
+            .register-title {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Loading state */
+        .register-btn.loading {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .register-btn.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: translateY(-50%) rotate(0deg); }
+            100% { transform: translateY(-50%) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background animation -->
+    <div class="bg-animation">
+        <div class="film-strip"></div>
+        <div class="film-strip"></div>
+    </div>
+
+    <!-- Register container -->
+    <div class="register-container">
+        <!-- Back button -->
+        <a href="index.html" class="back-btn" title="Kembali">←</a>
+
+        <!-- Header -->
+        <div class="register-header">
+            <h1 class="logo-small">CINEMA 23</h1>
+            <h2 class="register-title">UNSRAT</h2>
+        </div>
+
+        <!-- Messages -->
+        <div class="message error-message" id="errorMessage"></div>
+        <div class="message success-message" id="successMessage"></div>
+
+        <!-- Register form -->
+        <form class="register-form" id="registerForm">
+
+            <div class="form-group has-icon">
+                <label for="nama">Nama</label>
+                <input type="nama" id="nama" name="nama" placeholder="Nama User" required>
+            </div>
+            <div class="form-group has-icon">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Minimal 8 karakter" required>
+                <div class="password-strength">
+                    <div class="password-strength-bar" id="strengthBar"></div>
+                </div>
+            </div>
+
+            <div class="form-group has-icon">
+                <label for="confirmPassword">Konfirmasi Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Ulangi password" required>
+            </div>
+            <button type="submit" class="register-btn" id="registerBtn">
+                 Daftar Sekarang
+            </button>
+        </form>
+
+        <!-- Divider -->
+        <div class="divider">
+            <span>atau</span>
+        </div>
+
+        <!-- Login link -->
+        <div class="login-link">
+            Sudah punya akun? <a href="login.html">Masuk di sini</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const registerForm = document.getElementById('registerForm');
+            const registerBtn = document.getElementById('registerBtn');
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const strengthBar = document.getElementById('strengthBar');
+
+            // Password strength checker
+            passwordInput.addEventListener('input', function() {
+                const password = this.value;
+                const strength = checkPasswordStrength(password);
+                
+                strengthBar.className = 'password-strength-bar strength-' + strength.level;
+            });
+
+            // Form validation
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Reset messages
+                hideMessages();
+                
+                // Get form data
+                const formData = new FormData(this);
+                const data = Object.fromEntries(formData);
+                
+                // Validate form
+                const validation = validateForm(data);
+                if (!validation.isValid) {
+                    showError(validation.message);
+                    return;
+                }
+                
+                // Show loading state
+                showLoading(true);
+                
+                // Simulate registration process
+                setTimeout(() => {
+                    // Here you would normally send data to PHP
+                    showLoading(false);
+                    showSuccess('Registrasi berhasil! Silakan login dengan akun Anda.');
+                    
+                    // Reset form
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                }, 2000);
+            });
+
+            // Password strength checker function
+            function checkPasswordStrength(password) {
+                let score = 0;
+                let level = 'weak';
+                
+                if (password.length >= 8) score++;
+                if (/[a-z]/.test(password)) score++;
+                if (/[A-Z]/.test(password)) score++;
+                if (/[0-9]/.test(password)) score++;
+                if (/[^A-Za-z0-9]/.test(password)) score++;
+                
+                if (score >= 4) level = 'strong';
+                else if (score >= 3) level = 'medium';
+                
+                return { score, level };
+            }
+
+            // Form validation function
+            function validateForm(data) {
+                // Check required fields
+                const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'gender', 'birthDate', 'password', 'confirmPassword'];
+                for (let field of requiredFields) {
+                    if (!data[field] || data[field].trim() === '') {
+                        return { isValid: false, message: 'Semua field wajib harus diisi!' };
+                    }
+                }
+
+                // Email validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(data.email)) {
+                    return { isValid: false, message: 'Format email tidak valid!' };
+                }
+
+                // Phone validation
+                const phoneRegex = /^(\+62|62|0)8[1-9][0-9]{6,9}$/;
+                if (!phoneRegex.test(data.phone)) {
+                    return { isValid: false, message: 'Format nomor telepon tidak valid!' };
+                }
+
+                // Password validation
+                if (data.password.length < 8) {
+                    return { isValid: false, message: 'Password minimal 8 karakter!' };
+                }
+
+                const passwordStrength = checkPasswordStrength(data.password);
+                if (passwordStrength.score < 3) {
+                    return { isValid: false, message: 'Password terlalu lemah! Gunakan kombinasi huruf besar, kecil, angka, dan simbol.' };
+                }
+
+                // Confirm password
+                if (data.password !== data.confirmPassword) {
+                    return { isValid: false, message: 'Konfirmasi password tidak cocok!' };
+                }
+
+                // Age validation
+                const birthDate = new Date(data.birthDate);
+                const today = new Date();
+                const age = today.getFullYear() - birthDate.getFullYear();
+                if (age < 13) {
+                    return { isValid: false, message: 'Usia minimal 13 tahun untuk mendaftar!' };
+                }
+
+                // Terms agreement
+                if (!data.terms) {
+                    return { isValid: false, message: 'Anda harus menyetujui syarat dan ketentuan!' };
+                }
+
+                return { isValid: true };
+            }
+
+            // Message functions
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                errorMessage.style.animation = 'shake 0.5s ease-in-out';
+            }
+
+            function showSuccess(message) {
+                successMessage.textContent = message;
+                successMessage.style.display = 'block';
+            }
+
+            function hideMessages() {
+                errorMessage.style.display = 'none';
+                successMessage.style.display = 'none';
+            }
+
+            // Loading state
+            function showLoading(loading) {
+                if (loading) {
+                    registerBtn.classList.add('loading');
+                    registerBtn.disabled = true;
+                    registerBtn.textContent = 'Mendaftar...';
+                } else {
+                    registerBtn.classList.remove('loading');
+                    registerBtn.disabled = false;
+                    registerBtn.innerHTML = '⭐ Daftar Sekarang';
+                }
+            }
+
+            // Input focus effects
+            const inputs = document.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'scale(1.02)';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'scale(1)';
+                });
+            });
+
+            // Real-time password confirmation check
+            confirmPasswordInput.addEventListener('input', function() {
+                const password = passwordInput.value;
+                const confirmPassword = this.value;
+                
+                if (confirmPassword && password !== confirmPassword) {
+                    this.style.borderColor = '#e74c3c';
+                } else {
+                    this.style.borderColor = 'rgba(229, 9, 20, 0.3)';
+                }
+            });
+        });
+
+        // Add shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                20%, 40%, 60%, 80% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

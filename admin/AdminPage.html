@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinema Admin Panel</title>
+    <!-- File ini adalah admin.html -->
+    <link rel="stylesheet" href="../css/style-admin.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="hamburger" onclick="toggleSidebar()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="brand">CinemaAdmin</div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="#" onclick="showPage('dashboard')" class="active">Dashboard</a></li>
+            <li><a href="#" onclick="showPage('movies')">List Film</a></li>
+            <li><a href="#" onclick="showPage('users')">List User</a></li>
+            <li><a href="#" onclick="showPage('profile')">Akun</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <!-- Dashboard Page -->
+            <div id="dashboard" class="page active">
+                <h1 class="welcome-text">Welcome Admin</h1>
+                <h2 class="section-title">Tim Developer</h2>
+                <div class="developer-grid">
+                    <div class="developer-card">
+                        <div class="developer-photo">
+                            <img src="../images/riel_tm.jpg" alt="Adriel Tumiwa">
+                        </div>
+                        <div class="developer-name">Adriel Tumiwa</div>
+                        <div class="developer-role">Frontend</div>
+                    </div>
+                    <div class="developer-card">
+                        <div class="developer-photo">
+                            <img src="../images/lois_polii.jpg" alt="Lois Polii">
+                        </div>
+                        <div class="developer-name">Lois Polii</div>
+                        <div class="developer-role">Frontend</div>
+
+                    </div>
+                    <div class="developer-card">
+                        <div class="developer-photo">
+                            <img src="../images/Gloria_Rondonuwu.PNG" alt="Gloria Rondonuwu">
+                        </div>
+                        <div class="developer-name">Gloria Rondonuwu</div>
+                        <div class="developer-role">Backend</div>
+
+                    </div>
+                    <div class="developer-card">
+                        <div class="developer-photo">
+                            <img src="../images/nando.jpg" alt="nando">
+                        </div>
+                        <div class="developer-name">Fernando Thadius</div>
+                        <div class="developer-role">Backend</div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Movies Page -->
+            <div id="movies" class="page">
+                <h2 class="section-title">List Film</h2>
+                <div class="table-container">
+                    <div class="btn-group">
+                        <button class="btn" onclick="openAddMovieModal()">Tambah Film</button>
+                    </div>
+                    <table id="moviesTable">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Gambar</th>
+                                <th>Judul Film</th>
+                                <th>Deskripsi</th>
+                                <th>Tahun Tayang</th>
+                                <th>Rating</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><img src="https://via.placeholder.com/80x120/e94560/ffffff?text=Movie" alt="Movie"
+                                        class="movie-img"></td>
+                                <td>Contoh Film 1</td>
+                                <td>Deskripsi film yang menarik dan menghibur...</td>
+                                <td>2023</td>
+                                <td>8.5</td>
+                                <td>
+                                    <button class="btn btn-warning" onclick="editMovie(1)">Edit</button>
+                                    <button class="btn btn-danger" onclick="deleteMovie(1)">Hapus</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Users Page -->
+            <div id="users" class="page">
+                <h2 class="section-title">List User</h2>
+                <div class="table-container">
+                    <table id="usersTable">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Username</th>
+                                <th>Jumlah Film yang di Rating</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>user123</td>
+                                <td>5</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>moviefan</td>
+                                <td>12</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>cinemagoer</td>
+                                <td>8</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Profile Page -->
+            <div id="profile" class="page">
+                <h2 class="section-title">Profil Akun</h2>
+                <div class="profile-card">
+                    <div class="profile-avatar">A</div>
+                    <div class="profile-info">
+                        <h2>Admin Cinema</h2>
+                        <p>Administrator sistem manajemen cinema</p>
+                        <button class="btn btn-danger" onclick="logout()">Log Out</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Movie Modal -->
+    <div id="movieModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Tambah Film</h3>
+                <span class="close" onclick="closeModal()">×</span>
+            </div>
+            <form id="movieForm">
+                <div class="form-group">
+                    <label for="movieImage">Gambar Film (URL)</label>
+                    <input type="url" id="movieImage" name="movieImage" placeholder="https://example.com/image.jpg">
+                </div>
+                <div class="form-group">
+                    <label for="movieTitle">Judul Film</label>
+                    <input type="text" id="movieTitle" name="movieTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="movieDescription">Deskripsi Film</label>
+                    <textarea id="movieDescription" name="movieDescription" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="movieYear">Tahun Tayang</label>
+                    <input type="number" id="movieYear" name="movieYear" min="1900" max="2030" required>
+                </div>
+                <div class="form-group">
+                    <label for="movieRating">Rating Film</label>
+                    <input type="number" id="movieRating" name="movieRating" min="0" max="10" step="0.1" required>
+                </div>
+                <button type="submit" class="btn">Simpan</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/script-admin.js"></script>
+</body>
+
+</html>
